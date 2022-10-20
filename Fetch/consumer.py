@@ -1,8 +1,14 @@
 import json
 import logging
+import os
 import time
 from wsgiref import headers
 import requests
+
+LOGFIL = "fetcher.log"
+LOGFIL = "{}/{}".format(os.path.dirname(__file__),LOGFIL)
+logging.basicConfig(filename=LOGFIL, level=logging.DEBUG)
+logging.getLogger('inblock').setLevel(logging.WARNING)
 
 
 class Consumer(object):
@@ -25,7 +31,9 @@ class Consumer(object):
         self.max_block_geth = None
 
         if start:
-            pass
+            self.max_block_geth = self.highestBlockEth()
+            self.run()
+
 
     def _rpcRequest(self, method, params, key):
         #make an RPC request to geth on port 8545.
@@ -36,12 +44,12 @@ class Consumer(object):
             "id": 0
         }
         time.sleep(self.delay)
-        block = requests.post(
+        res = requests.post(
             self.url,
             data=json.dumps(payload),
             headers=self.headers).json()
 
-        return block[key]
+        return res[key]
 
     def highestBlockPostgres(self):
 
@@ -49,8 +57,8 @@ class Consumer(object):
 
     def highestBlockEth(self):
         """Find the highest numbered block in geth"""
-        num_hex = self._rpcRequest("eth_blockNumber", [], "")
-        return 
+        num_hex = self._rpcRequest("eth_blockNumber", [], "result")
+        return int(num_hex, 16)
 
     def getHead():
         return data[key]
