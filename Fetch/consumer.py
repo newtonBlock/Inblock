@@ -1,16 +1,13 @@
 import sys
-
-
-import sys
 import json
 import logging
 import os
 sys.path.append(os.path.realpath(os.path.dirname(__file__)))
-
 import time
 from wsgiref import headers
 import requests
 
+from web3 import Web3, HTTPProvider
 import fetch_util
 
 
@@ -31,12 +28,13 @@ class Consumer(object):
         delay=0.0001) -> None:
         
         #initialize the consumer to get block
-        self.url = "{}:{}".format(host, APIkey)
+        self.url = "{}{}".format(host, APIkey)
         self.headers = {"content-type": "application/json"}
         #relational database
         self.pgsql = None
         self.delay = delay
         #
+        self.w3 = Web3(HTTPProvider(self.url))
 
         self.max_block_postgres = None   
         self.max_block_geth = None
@@ -68,8 +66,10 @@ class Consumer(object):
 
     def highestBlockEth(self):
         """Find the highest numbered block in geth"""
-        num_hex = self._rpcRequest("eth_blockNumber", [], "result")
-        return int(num_hex, 16)
+        #num_hex = self._rpcRequest("eth_blockNumber", [], "result")
+        #return int(num_hex, 16)
+        num = self.w3.eth.blockNumber
+        return num
 
     def getHead():
         return data[key]

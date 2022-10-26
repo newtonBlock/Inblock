@@ -1,0 +1,6 @@
+DEBUG:web3.RequestManager:Making request. Method: eth_blockNumber
+DEBUG:web3.providers.HTTPProvider:Making request HTTP. URI: https://mainnet.infura.io/v3/c6246e3831ab49fdb3217fe0f2623268, Method: eth_blockNumber
+DEBUG:web3.providers.HTTPProvider:Getting response HTTP. URI: https://mainnet.infura.io/v3/c6246e3831ab49fdb3217fe0f2623268, Method: eth_blockNumber, Response: {'jsonrpc': '2.0', 'id': 0, 'result': '0xf19285'}
+DEBUG:root:Processing geth node to fetch block
+INFO:root:start and end the span of parsed blocks: 5
+INFO:root:highest block number of get is: 15831685
